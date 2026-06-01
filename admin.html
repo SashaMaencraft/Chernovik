@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление ключами</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+        
+        .admin-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+        
+        .panel {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+        
+        .key-list {
+            margin: 20px 0;
+        }
+        
+        .key-item {
+            background: #334155;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .key-value {
+            font-family: monospace;
+            color: #10b981;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        
+        input {
+            width: 100%;
+            background: #334155;
+            border: 2px solid #475569;
+            border-radius: 8px;
+            padding: 12px;
+            color: #f1f5f9;
+            font-family: monospace;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #ef4444;
+        }
+        
+        .back-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+            color: #60a5fa;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="header">
+            <h1>🔑 Управление API-ключами</h1>
+            <p>Добавляйте и удаляйте ключи доступа</p>
+        </div>
+        
+        <div class="panel">
+            <h2>Текущие ключи</h2>
+            <div class="key-list" id="keyList">
+                <!-- Ключи будут здесь -->
+            </div>
+            
+            <input type="text" id="newKey" placeholder="sk_новый_ключ">
+            <button onclick="addKey()" class="btn btn-primary">Добавить ключ</button>
+        </div>
+        
+        <a href="index.html" class="back-btn">← Назад к входу</a>
+    </div>
+
+    <script>
+        let API_KEYS = ['sk_demo_notes_2024'];
+        
+        function loadKeys() {
+            try {
+                const saved = localStorage.getItem('api_keys');
+                if (saved) {
+                    API_KEYS = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.error('Ошибка загрузки ключей:', e);
+            }
+            
+            renderKeys();
+        }
+        
+        function saveKeys() {
+            localStorage.setItem('api_keys', JSON.stringify(API_KEYS));
+        }
+        
+        function renderKeys() {
+            const keyList = document.getElementById('keyList');
+            keyList.innerHTML = '';
+            
+            API_KEYS.forEach((key, index) => {
+                const div = document.createElement('div');
+                div.className = 'key-item';
+                div.innerHTML = `
+                    <span class="key-value">${key}</span>
+                    <button onclick="removeKey(${index})" class="btn btn-danger">Удалить</button>
+                `;
+                keyList.appendChild(div);
+            });
+        }
+        
+        function addKey() {
+            const input = document.getElementById('newKey');
+            const key = input.value.trim();
+            
+            if (!key) {
+                alert('Введите ключ');
+                return;
+            }
+            
+            if (!key.startsWith('sk_')) {
+                alert('Ключ должен начинаться с sk_');
+                return;
+            }
+            
+            if (!API_KEYS.includes(key)) {
+                API_KEYS.push(key);
+                saveKeys();
+                renderKeys();
+                input.value = '';
+            }
+        }
+        
+        function removeKey(index) {
+            if (confirm('Удалить этот ключ?')) {
+                API_KEYS.splice(index, 1);
+                saveKeys();
+                renderKeys();
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadKeys);
+    </script>
+</body>
+</html>

@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Черновик-Заметки • Вход</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --border: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --error: #f87171;
+            --warning: #f59e0b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .login-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .logo p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        input {
+            width: 100%;
+            background: #334155;
+            border: 2px solid #475569;
+            border-radius: 10px;
+            padding: 16px 20px;
+            font-size: 16px;
+            color: var(--text-primary);
+            font-family: monospace;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+        }
+        
+        input::placeholder {
+            color: #64748b;
+        }
+        
+        /* Стиль для кнопок меню */
+        .menu-container {
+            margin-top: 25px;
+        }
+        
+        .menu-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .menu-header h3 {
+            color: var(--text-primary);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            min-height: 80px;
+        }
+        
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .menu-btn:active {
+            transform: translateY(0);
+        }
+        
+        .menu-btn-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .menu-btn-security {
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+        
+        .menu-btn-security:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .menu-btn-privacy {
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #a7f3d0;
+        }
+        
+        .menu-btn-privacy:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .menu-btn-info {
+            border-color: rgba(59, 130, 246, 0.3);
+            color: #93c5fd;
+        }
+        
+        .menu-btn-info:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .menu-btn-help {
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #c4b5fd;
+        }
+        
+        .menu-btn-help:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        /* Основная кнопка входа */
+        #loginBtn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        #loginBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        #loginBtn:active {
+            transform: translateY(0);
+        }
+        
+        #loginBtn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error {
+            color: var(--error);
+            font-size: 14px;
+            text-align: center;
+            margin-top: 15px;
+            min-height: 20px;
+        }
+        
+        /* Демо информация */
+        .demo-info {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .demo-key {
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .demo-key strong {
+            color: #93c5fd;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .demo-key code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: #60a5fa;
+            font-size: 14px;
+            display: block;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            background: rgba(96, 165, 250, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(96, 165, 250, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .copy-btn.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        
+        .note {
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-align: center;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+        
+        .spinner {
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ВСПЛЫВАЮЩЕЕ ОКНО */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .popup {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 0;
+            max-width: 400px;
+            width: 100%;
+            max-height: 70vh;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .popup-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .popup-header h3 {
+            color: var(--text-primary);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .popup-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .popup-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+        
+        .popup-content {
+            padding: 25px;
+            max-height: 50vh;
+            overflow-y: auto;
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .popup-content h4 {
+            color: var(--text-primary);
+            margin: 15px 0 10px 0;
+            font-size: 15px;
+        }
+        
+        .popup-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .popup-content li {
+            margin-bottom: 6px;
+        }
+        
+        .warning-text {
+            color: var(--warning);
+            font-weight: 500;
+            padding: 10px;
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--warning);
+            margin: 10px 0;
+        }
+        
+        .danger-text {
+            color: var(--error);
+            font-weight: 500;
+            padding: 10px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--error);
+            margin: 10px 0;
+        }
+        
+        .success-text {
+            color: var(--success);
+            font-weight: 500;
+            padding: 10px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--success);
+            margin: 10px 0;
+        }
+        
+        /* Мобильные стили */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 10px;
+            }
+            
+            .login-card {
+                padding: 25px;
+                border-radius: 14px;
+            }
+            
+            .menu-buttons {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .menu-btn {
+                min-height: 70px;
+                padding: 12px;
+            }
+            
+            .popup {
+                max-width: 90vw;
+                max-height: 80vh;
+            }
+            
+            input {
+                padding: 14px 16px;
+                font-size: 16px;
+            }
+            
+            #loginBtn {
+                padding: 14px;
+                font-size: 16px;
+                min-height: 50px;
+            }
+        }
+        
+        /* Анимации для кнопок */
+        @media (prefers-reduced-motion: no-preference) {
+            .menu-btn {
+                animation: buttonAppear 0.5s ease-out backwards;
+            }
+            
+            .menu-btn:nth-child(1) { animation-delay: 0.1s; }
+            .menu-btn:nth-child(2) { animation-delay: 0.2s; }
+            .menu-btn:nth-child(3) { animation-delay: 0.3s; }
+            .menu-btn:nth-child(4) { animation-delay: 0.4s; }
+            
+            @keyframes buttonAppear {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">
+                <div class="logo-icon">🔐</div>
+                <h1>Черновик-Заметки</h1>
+                <p>Приватный редактор с доступом по ключу</p>
+            </div>
+            
+            <div class="input-group">
+                <input 
+                    type="text"
+                    id="apiKey" 
+                    placeholder="Нажмите здесь чтобы ввести API-ключ"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    inputmode="text"
+                >
+            </div>
+            
+            <!-- МЕНЮ ПЛАШКА -->
+            <div class="menu-container">
+                <div class="menu-header">
+                    <h3>⚙️ Информация и настройки</h3>
+                </div>
+                
+                <div class="menu-buttons">
+                    <button class="menu-btn menu-btn-security" onclick="showSecurityPopup()">
+                        <div class="menu-btn-icon">⚠️</div>
+                        <div>Безопасность</div>
+                    </button>
+                    
+                    <button class="menu-btn menu-btn-privacy" onclick="showPrivacyPopup()">
+                        <div class="menu-btn-icon">🔒</div>
+                        <div>Конфиденциальность</div>
+                    </button>
+                    
+                    <button class="menu-btn menu-btn-info" onclick="showInfoPopup()">
+                        <div class="menu-btn-icon">ℹ️</div>
+                        <div>О приложении</div>
+                    </button>
+                    
+                    <button class="menu-btn menu-btn-help" onclick="showHelpPopup()">
+                        <div class="menu-btn-icon">❓</div>
+                        <div>Помощь</div>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="loginBtn">
+                <span id="loginText">Войти в редактор</span>
+                <span class="spinner" id="loginSpinner">⏳</span>
+            </button>
+            
+            <div id="error" class="error"></div>
+            
+            <!-- ДЕМО ИНФОРМАЦИЯ -->
+            <div class="demo-info">
+                <div class="demo-key">
+                    <strong>Демо-ключ для теста:</strong>
+                    <code>sk_demo_notes_2024</code>
+                    <button class="copy-btn" id="copyBtn">
+                        📋 Копировать ключ
+                    </button>
+                </div>
+                
+                <p class="note">
+                    Ключ запрашивается при каждой загрузке.<br>
+                    Ваши заметки сохраняются локально в браузере.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ВСПЛЫВАЮЩЕЕ ОКНО -->
+    <div id="popupOverlay" class="popup-overlay">
+        <div class="popup">
+            <div class="popup-header">
+                <h3 id="popupTitle">Заголовок</h3>
+                <button class="popup-close" onclick="hidePopup()">×</button>
+            </div>
+            <div class="popup-content" id="popupContent">
+                <!-- Контент загружается через JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const VALID_KEYS = ['sk_demo_notes_2024'];
+        
+        const apiKeyInput = document.getElementById('apiKey');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginText = document.getElementById('loginText');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const errorEl = document.getElementById('error');
+        const copyBtn = document.getElementById('copyBtn');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupTitle = document.getElementById('popupTitle');
+        const popupContent = document.getElementById('popupContent');
+        
+        localStorage.removeItem('notes_auth_temp');
+        sessionStorage.clear();
+        
+        // Фокус на поле ввода при загрузке
+        setTimeout(() => {
+            apiKeyInput.focus();
+        }, 300);
+        
+        // ПОКАЗАТЬ ВСПЛЫВАЮЩЕЕ ОКНО
+        function showPopup(title, content) {
+            popupTitle.innerHTML = title;
+            popupContent.innerHTML = content;
+            popupOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // СКРЫТЬ ВСПЛЫВАЮЩЕЕ ОКНО
+        function hidePopup() {
+            popupOverlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Закрыть при клике вне окна
+        popupOverlay.addEventListener('click', function(e) {
+            if (e.target === popupOverlay) {
+                hidePopup();
+            }
+        });
+        
+        // Закрыть по Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && popupOverlay.style.display === 'flex') {
+                hidePopup();
+            }
+        });
+        
+        // КНОПКА БЕЗОПАСНОСТИ
+        function showSecurityPopup() {
+            showPopup(
+                '⚠️ Безопасность',
+                `
+                <h4>ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ</h4>
+                <p><strong>НЕ РЕКОМЕНДУЕТСЯ хранить в заметках:</strong></p>
+                <ul>
+                    <li>Пароли от аккаунтов</li>
+                    <li>Банковские реквизиты и карты</li>
+                    <li>Паспортные данные и документы</li>
+                    <li>Кредитные карты и CVV-коды</li>
+                    <li>Конфиденциальную служебную информацию</li>
+                </ul>
+                
+                <div class="danger-text">
+                    ⛔ Приложение предназначено для обычных заметок и черновиков!
+                </div>
+                
+                <h4>Советы по безопасности:</h4>
+                <ul>
+                    <li>Используйте менеджеры паролей (Bitwarden, LastPass)</li>
+                    <li>Банковские данные храните в официальных приложениях</li>
+                    <li>Конфиденциальные документы шифруйте</li>
+                    <li>Регулярно экспортируйте важные заметки</li>
+                    <li>Очищайте данные на публичных компьютерах</li>
+                </ul>
+                `
+            );
+        }
+        
+        // КНОПКА КОНФИДЕНЦИАЛЬНОСТИ
+        function showPrivacyPopup() {
+            showPopup(
+                '🔒 Конфиденциальность',
+                `
+                <h4>Политика конфиденциальности</h4>
+                <p><strong>Дата вступления в силу:</strong> 2024 г.</p>
+                
+                <h4>Как работают ваши данные:</h4>
+                <ul>
+                    <li>Все заметки хранятся <strong>локально в вашем браузере</strong></li>
+                    <li>API-ключ удаляется при перезагрузке страницы</li>
+                    <li>Данные <strong>никуда не передаются</strong></li>
+                    <li>Нет серверной части и отслеживания</li>
+                </ul>
+                
+                <div class="success-text">
+                    ✅ Ваши данные полностью защищены и хранятся только у вас!
+                </div>
+                
+                <h4>Хранение данных:</h4>
+                <ul>
+                    <li><strong>LocalStorage</strong> – заметки и настройки</li>
+                    <li><strong>SessionStorage</strong> – временный API-ключ</li>
+                    <li>Автоматическое шифрование браузером</li>
+                </ul>
+                
+                <h4>Очистка данных:</h4>
+                <ul>
+                    <li>Через настройки браузера</li>
+                    <li>Кнопкой "Очистить все" в редакторе</li>
+                    <li>Удалением cookies и данных сайта</li>
+                </ul>
+                `
+            );
+        }
+        
+        // КНОПКА О ПРИЛОЖЕНИИ
+        function showInfoPopup() {
+            showPopup(
+                'ℹ️ О приложении',
+                `
+                <h4>Черновик-Заметки v2.0</h4>
+                <p>Приватный редактор для безопасного хранения заметок.</p>
+                
+                <div class="success-text">
+                    🚀 Работает на ПК и мобильных устройствах
+                </div>
+                
+                <h4>Основные функции:</h4>
+                <ul>
+                    <li>Доступ по API-ключу</li>
+                    <li>Локальное хранение заметок</li>
+                    <li>Автоматическое сохранение</li>
+                    <li>Создание и удаление заметок</li>
+                    <li>Экспорт данных в JSON</li>
+                    <li>Подсчет символов и слов</li>
+                </ul>
+                
+                <h4>Технологии:</h4>
+                <ul>
+                    <li>HTML5, CSS3, JavaScript</li>
+                    <li>LocalStorage для данных</li>
+                    <li>SessionStorage для авторизации</li>
+                    <li>Адаптивный дизайн</li>
+                    <li>Мобильная оптимизация</li>
+                </ul>
+                
+                <h4>Особенности:</h4>
+                <ul>
+                    <li>Работает полностью офлайн</li>
+                    <li>Не требует интернета</li>
+                    <li>Кроссплатформенность</li>
+                    <li>Быстрая загрузка</li>
+                </ul>
+                `
+            );
+        }
+        
+        // КНОПКА ПОМОЩИ
+        function showHelpPopup() {
+            showPopup(
+                '❓ Помощь',
+                `
+                <h4>Как пользоваться приложением:</h4>
+                
+                <div class="warning-text">
+                    1. Введите API-ключ в поле выше
+                    2. Нажмите "Войти в редактор"
+                    3. Начните работать с заметками
+                </div>
+                
+                <h4>Демо-доступ:</h4>
+                <p>Для тестирования используйте ключ: <code>sk_demo_notes_2024</code></p>
+                
+                <h4>Редактор заметок:</h4>
+                <ul>
+                    <li><strong>Левая панель</strong> – список всех заметок</li>
+                    <li><strong>Правая панель</strong> – редактор текста</li>
+                    <li><strong>Кнопка "+"</strong> – создать новую заметку</li>
+                    <li><strong>Кнопка "🗑️"</strong> – удалить заметку</li>
+                    <li><strong>Кнопка "💾"</strong> – сохранить изменения</li>
+                    <li><strong>Кнопка "📤"</strong> – экспортировать заметки</li>
+                </ul>
+                
+                <h4>Горячие клавиши (ПК):</h4>
+                <ul>
+                    <li><strong>Ctrl/Cmd + S</strong> – сохранить</li>
+                    <li><strong>Ctrl/Cmd + N</strong> – новая заметка</li>
+                    <li><strong>Escape</strong> – убрать фокус</li>
+                </ul>
+                
+                <h4>На мобильных устройствах:</h4>
+                <ul>
+                    <li>Коснитесь поля для ввода API-ключа</li>
+                    <li>Коснитесь текста для редактирования</li>
+                    <li>Используйте свайпы для навигации</li>
+                    <li>Поверните телефон для ландшафтного режима</li>
+                </ul>
+                
+                <div class="success-text">
+                    💡 Совет: Регулярно экспортируйте важные заметки!
+                </div>
+                `
+            );
+        }
+        
+        // Копировать демо-ключ
+        function copyDemoKey() {
+            const demoKey = 'sk_demo_notes_2024';
+            navigator.clipboard.writeText(demoKey);
+            
+            copyBtn.innerHTML = '✓ Скопировано!';
+            copyBtn.classList.add('success');
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = '📋 Копировать ключ';
+                copyBtn.classList.remove('success');
+            }, 2000);
+        }
+        
+        // Войти
+        async function login() {
+            const key = apiKeyInput.value.trim();
+            errorEl.textContent = '';
+            
+            if (!key) {
+                errorEl.textContent = 'Введите API-ключ';
+                return;
+            }
+            
+            loginText.textContent = 'Проверка...';
+            loginSpinner.style.display = 'inline';
+            loginBtn.disabled = true;
+            
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            if (VALID_KEYS.includes(key)) {
+                sessionStorage.setItem('current_api_key', key);
+                localStorage.setItem('notes_auth_temp', 'true');
+                
+                loginText.textContent = 'Успешно!';
+                errorEl.style.color = '#4ade80';
+                errorEl.textContent = 'Перенаправляем...';
+                
+                setTimeout(() => {
+                    window.location.href = 'notes.html';
+                }, 500);
+            } else {
+                errorEl.textContent = 'Неверный API-ключ';
+                apiKeyInput.value = '';
+                apiKeyInput.focus();
+                
+                loginText.textContent = 'Войти в редактор';
+                loginSpinner.style.display = 'none';
+                loginBtn.disabled = false;
+            }
+        }
+        
+        // Обработчики
+        loginBtn.addEventListener('click', login);
+        
+        apiKeyInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') login();
+        });
+        
+        copyBtn.addEventListener('click', copyDemoKey);
+        
+        // Показать первую подсказку при загрузке
+        const isFirstVisit = !localStorage.getItem('help_shown');
+        if (isFirstVisit) {
+            setTimeout(() => {
+                showHelpPopup();
+                localStorage.setItem('help_shown', 'true');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+}
+
+/* СТИЛИ ДЛЯ СТРАНИЦЫ ВХОДА */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-card {
+    background: #1e293b;
+    border-radius: 16px;
+    padding: 40px;
+    border: 1px solid #334155;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.login-logo {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.login-title {
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 8px;
+}
+
+.login-subtitle {
+    color: #94a3b8;
+    font-size: 15px;
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+.login-input-group {
+    margin-bottom: 24px;
+}
+
+#apiKey {
+    width: 100%;
+    background: #334155;
+    border: 2px solid #475569;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 15px;
+    color: #f1f5f9;
+    font-family: 'Monaco', 'Courier New', monospace;
+    transition: all 0.2s;
+}
+
+#apiKey:focus {
+    outline: none;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+#apiKey::placeholder {
+    color: #64748b;
+}
+
+.login-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+.login-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.login-error {
+    color: #f87171;
+    font-size: 14px;
+    margin-top: 16px;
+    min-height: 20px;
+    text-align: center;
+}
+
+.login-info {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #334155;
+}
+
+.demo-key {
+    background: rgba(96, 165, 250, 0.1);
+    border: 1px solid #3b82f6;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.demo-key code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-family: monospace;
+    color: #60a5fa;
+    font-size: 14px;
+    flex: 1;
+    text-align: left;
+}
+
+.copy-btn {
+    background: #475569;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.copy-btn:hover {
+    background: #64748b;
+}
+
+.login-note {
+    font-size: 13px;
+    color: #94a3b8;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    display: none;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* СТИЛИ ДЛЯ СТРАНИЦЫ ЗАМЕТОК (из предыдущей версии) */
+.notes-app {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 300px;
+    background: #1e293b;
+    border-right: 1px solid #334155;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ... остальные стили для заметок из предыдущего ответа остаются без изменений ... */

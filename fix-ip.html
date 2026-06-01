@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Исправление IP</title>
+    <script>
+        // Добавляем ваш IP в разрешенные
+        localStorage.setItem('allowed_ips', JSON.stringify(['95.52.37.108', '127.0.0.1']));
+        localStorage.setItem('allowed_api_addresses', JSON.stringify([])); // Разрешить все
+        
+        alert('IP 95.52.37.108 добавлен в разрешенные! Теперь откройте index.html');
+        window.location.href = 'index.html';
+    </script>
+</head>
+<body>
+    <p>Добавляем ваш IP в разрешенные...</p>
+</body>
+</html>

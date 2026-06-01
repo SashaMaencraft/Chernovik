@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Черновик-Заметки</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+        
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        /* Левая панель */
+        .sidebar {
+            width: 300px;
+            background: #1e293b;
+            border-right: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .sidebar-header h1 {
+            font-size: 20px;
+            color: #60a5fa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .new-note-btn {
+            width: 100%;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        
+        .new-note-btn:active {
+            background: #2563eb;
+        }
+        
+        .notes-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .note-item {
+            background: #334155;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .note-item:active {
+            background: #475569;
+        }
+        
+        .note-item.active {
+            background: #1e40af;
+            border-color: #3b82f6;
+        }
+        
+        .note-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        
+        .note-item-title {
+            font-weight: 600;
+            color: #f1f5f9;
+            font-size: 15px;
+            flex: 1;
+            margin-right: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .note-item-preview {
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .note-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        
+        .delete-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .delete-btn:active {
+            background: #ef4444;
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        /* Правая панель */
+        .editor {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #0f172a;
+        }
+        
+        .editor-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #334155;
+            background: #1e293b;
+        }
+        
+        .note-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #f1f5f9;
+            border: none;
+            outline: none;
+            width: 100%;
+            background: transparent;
+            font-family: inherit;
+            padding: 0;
+        }
+        
+        .note-title::placeholder {
+            color: #64748b;
+        }
+        
+        .editor-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        .editor-body {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .note-content {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #f1f5f9;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: none;
+            font-family: inherit;
+        }
+        
+        .note-content::placeholder {
+            color: #64748b;
+        }
+        
+        .editor-footer {
+            padding: 15px 30px;
+            border-top: 1px solid #334155;
+            background: #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .save-status {
+            color: #10b981;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .editor-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-save {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-clear {
+            background: #475569;
+            color: white;
+        }
+        
+        .btn-export {
+            background: #8b5cf6;
+            color: white;
+        }
+        
+        .btn-logout {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: 250px;
+                border-right: none;
+                border-bottom: 1px solid #334155;
+            }
+            
+            .note-title {
+                font-size: 24px;
+            }
+            
+            .editor-body {
+                padding: 20px;
+            }
+            
+            .editor-controls {
+                gap: 6px;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .sidebar {
+                height: 200px;
+            }
+            
+            .editor-header {
+                padding: 15px 20px;
+            }
+            
+            .editor-footer {
+                padding: 12px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .editor-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        /* Скроллбар */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+        
+        /* Фикс для iOS */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                height: -webkit-fill-available;
+            }
+            
+            .note-title, .note-content {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Левая панель -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>📝 Мои заметки</h1>
+                <button id="newNoteBtn" class="new-note-btn">
+                    + Новая заметка
+                </button>
+            </div>
+            
+            <div class="notes-list" id="notesList">
+                <!-- Заметки загружаются через JS -->
+            </div>
+        </div>
+        
+        <!-- Правая панель -->
+        <div class="editor">
+            <div class="editor-header">
+                <input 
+                    type="text" 
+                    id="noteTitle" 
+                    class="note-title" 
+                    placeholder="Без названия"
+                    spellcheck="false"
+                >
+                <div class="editor-stats">
+                    <span id="charCount">0 символов</span>
+                    <span id="wordCount">0 слов</span>
+                    <span id="lastSaved">Сохранено</span>
+                </div>
+            </div>
+            
+            <div class="editor-body">
+                <textarea 
+                    id="noteContent" 
+                    class="note-content" 
+                    placeholder="Начните писать здесь... Ваши заметки сохраняются автоматически."
+                    spellcheck="true"
+                ></textarea>
+            </div>
+            
+            <div class="editor-footer">
+                <div class="save-status">
+                    <span id="saveStatus">✓ Автосохранение</span>
+                </div>
+                
+                <div class="editor-controls">
+                    <button id="saveBtn" class="btn btn-save">
+                        💾 Сохранить
+                    </button>
+                    <button id="clearBtn" class="btn btn-clear">
+                        🗑️ Очистить
+                    </button>
+                    <button id="exportBtn" class="btn btn-export">
+                        📤 Экспорт
+                    </button>
+                    <button id="logoutBtn" class="btn btn-logout">
+                        🔒 Выйти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Конфигурация
+        const CONFIG = {
+            STORAGE_KEY: 'draft_notes_data',
+            AUTO_SAVE_DELAY: 1500
+        };
+
+        // DOM элементы
+        const notesList = document.getElementById('notesList');
+        const newNoteBtn = document.getElementById('newNoteBtn');
+        const noteTitle = document.getElementById('noteTitle');
+        const noteContent = document.getElementById('noteContent');
+        const charCount = document.getElementById('charCount');
+        const wordCount = document.getElementById('wordCount');
+        const lastSaved = document.getElementById('lastSaved');
+        const saveStatus = document.getElementById('saveStatus');
+        const saveBtn = document.getElementById('saveBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Состояние
+        let currentNoteId = null;
+        let notes = {};
+        let autoSaveTimer = null;
+
+        // Проверка авторизации
+        function checkAuth() {
+            const isAuthenticated = localStorage.getItem('notes_auth_temp') === 'true';
+            const hasKey = sessionStorage.getItem('current_api_key');
+            
+            if (!isAuthenticated || !hasKey) {
+                window.location.href = 'index.html';
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Загрузить все заметки
+        function loadNotes() {
+            try {
+                const saved = localStorage.getItem(CONFIG.STORAGE_KEY);
+                notes = saved ? JSON.parse(saved) : {};
+                
+                if (Object.keys(notes).length === 0) {
+                    createNewNote(true);
+                } else {
+                    const noteIds = Object.keys(notes);
+                    currentNoteId = noteIds[noteIds.length - 1];
+                    loadNote(currentNoteId);
+                }
+                
+                renderNotesList();
+            } catch (e) {
+                console.error('Ошибка загрузки:', e);
+                notes = {};
+                createNewNote(true);
+            }
+        }
+
+        // Загрузить конкретную заметку
+        function loadNote(noteId) {
+            const note = notes[noteId];
+            if (!note) return;
+            
+            currentNoteId = noteId;
+            noteTitle.value = note.title || '';
+            noteContent.value = note.content || '';
+            
+            updateStats();
+            renderNotesList();
+        }
+
+        // Создать новую заметку
+        function createNewNote(isFirst = false) {
+            const noteId = 'note_' + Date.now();
+            const defaultTitle = isFirst ? 'Добро пожаловать!' : 'Новая заметка';
+            const defaultContent = isFirst ? 
+                'Добро пожаловать в Черновик-Заметки!\n\nЗдесь вы можете безопасно хранить свои мысли и идеи.\n\nВАЖНО:\n• Это приложение для обычных заметок\n• НЕ рекомендуется хранить пароли, банковские данные\n• Все данные хранятся локально в вашем браузере\n\nФункции:\n• Создавайте новые заметки кнопкой "Новая заметка"\n• Редактируйте их в правой части\n• Удаляйте ненужные заметки кнопкой "🗑️"\n• Экспортируйте заметки через кнопку "📤 Экспорт"\n\nВаши заметки автоматически сохраняются.' : 
+                '';
+            
+            notes[noteId] = {
+                id: noteId,
+                title: defaultTitle,
+                content: defaultContent,
+                created: Date.now(),
+                updated: Date.now()
+            };
+            
+            currentNoteId = noteId;
+            loadNote(noteId);
+            saveNotes();
+            
+            // Фокус на редактор
+            setTimeout(() => {
+                noteContent.focus();
+                noteContent.setSelectionRange(noteContent.value.length, noteContent.value.length);
+            }, 100);
+        }
+
+        // Сохранить заметки
+        function saveNotes() {
+            if (!currentNoteId) return;
+            
+            notes[currentNoteId] = {
+                ...notes[currentNoteId],
+                title: noteTitle.value.trim() || 'Без названия',
+                content: noteContent.value,
+                updated: Date.now()
+            };
+            
+            try {
+                localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(notes));
+                
+                // Обновить статус
+                const now = new Date();
+                lastSaved.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                saveStatus.textContent = '✓ Сохранено';
+                
+                renderNotesList();
+                
+                // Через 2 секунды возвращаем обычный статус
+                setTimeout(() => {
+                    saveStatus.textContent = '✓ Автосохранение';
+                }, 2000);
+            } catch (e) {
+                saveStatus.textContent = '❌ Ошибка';
+                console.error('Ошибка сохранения:', e);
+            }
+        }
+
+        // Удалить заметку
+        function deleteNote(noteId) {
+            if (Object.keys(notes).length <= 1) {
+                alert('Нельзя удалить последнюю заметку!');
+                return;
+            }
+            
+            if (!confirm('Удалить эту заметку?')) return;
+            
+            delete notes[noteId];
+            
+            // Если удаляем текущую заметку, переключаемся на другую
+            if (noteId === currentNoteId) {
+                const remainingIds = Object.keys(notes);
+                if (remainingIds.length > 0) {
+                    currentNoteId = remainingIds[0];
+                    loadNote(currentNoteId);
+                }
+            }
+            
+            saveNotes();
+        }
+
+        // Очистить текущую заметку
+        function clearCurrentNote() {
+            if (!noteContent.value.trim()) return;
+            
+            if (!confirm('Очистить текст заметки?')) return;
+            
+            noteContent.value = '';
+            updateStats();
+            saveNotes();
+        }
+
+        // Экспортировать все заметки
+        function exportNotes() {
+            const data = {
+                exportedAt: new Date().toISOString(),
+                noteCount: Object.keys(notes).length,
+                notes: notes
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const fileName = `notes_export_${Date.now()}.json`;
+            
+            const link = document.createElement('a');
+            link.setAttribute('href', dataUri);
+            link.setAttribute('download', fileName);
+            link.click();
+        }
+
+        // Обновить статистику
+        function updateStats() {
+            const content = noteContent.value;
+            const chars = content.length;
+            const words = content.trim() === '' ? 0 : content.trim().split(/\s+/).length;
+            
+            charCount.textContent = `${chars} символов`;
+            wordCount.textContent = `${words} слов`;
+        }
+
+        // Отрендерить список заметок
+        function renderNotesList() {
+            if (!notesList) return;
+            
+            if (Object.keys(notes).length === 0) {
+                notesList.innerHTML = '<div style="color: #94a3b8; text-align: center; padding: 40px 20px;">Нет заметок</div>';
+                return;
+            }
+            
+            // Сортировка по дате обновления
+            const sortedNotes = Object.values(notes).sort((a, b) => b.updated - a.updated);
+            
+            notesList.innerHTML = '';
+            
+            sortedNotes.forEach(note => {
+                const noteEl = document.createElement('div');
+                noteEl.className = `note-item ${note.id === currentNoteId ? 'active' : ''}`;
+                
+                // Превью текста
+                const preview = note.content.substring(0, 120).replace(/\n/g, ' ');
+                const title = note.title || 'Без названия';
+                
+                // Форматирование даты
+                const date = new Date(note.updated);
+                const timeStr = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const dateStr = date.toLocaleDateString();
+                
+                noteEl.innerHTML = `
+                    <div class="note-item-header">
+                        <div class="note-item-title" title="${title}">${title}</div>
+                        <button class="delete-btn" data-note-id="${note.id}" title="Удалить">🗑️</button>
+                    </div>
+                    <div class="note-item-preview">${preview}${note.content.length > 120 ? '...' : ''}</div>
+                    <div class="note-item-footer">
+                        <span>${dateStr} ${timeStr}</span>
+                    </div>
+                `;
+                
+                // Клик по заметке
+                noteEl.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('delete-btn')) {
+                        loadNote(note.id);
+                    }
+                });
+                
+                // Кнопка удаления
+                const deleteBtn = noteEl.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteNote(note.id);
+                });
+                
+                notesList.appendChild(noteEl);
+            });
+        }
+
+        // Настроить автосохранение
+        function setupAutoSave() {
+            [noteTitle, noteContent].forEach(input => {
+                input.addEventListener('input', () => {
+                    updateStats();
+                    
+                    if (autoSaveTimer) {
+                        clearTimeout(autoSaveTimer);
+                    }
+                    
+                    saveStatus.textContent = '⏳ Изменения...';
+                    
+                    autoSaveTimer = setTimeout(() => {
+                        saveNotes();
+                    }, CONFIG.AUTO_SAVE_DELAY);
+                });
+            });
+        }
+
+        // Выйти из системы
+        function logout() {
+            if (confirm('Выйти из системы?')) {
+                localStorage.removeItem('notes_auth_temp');
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Настроить горячие клавиши
+        function setupHotkeys() {
+            document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + S - сохранить
+                if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                    e.preventDefault();
+                    saveNotes();
+                }
+                
+                // Ctrl/Cmd + N - новая заметка
+                if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                    e.preventDefault();
+                    createNewNote();
+                }
+                
+                // Escape - убрать фокус
+                if (e.key === 'Escape') {
+                    noteContent.blur();
+                }
+            });
+        }
+
+        // Инициализация
+        function init() {
+            // Проверяем авторизацию
+            if (!checkAuth()) return;
+            
+            // Загружаем заметки
+            loadNotes();
+            setupAutoSave();
+            setupHotkeys();
+            
+            // Обработчики кнопок
+            newNoteBtn.addEventListener('click', () => createNewNote());
+            saveBtn.addEventListener('click', () => saveNotes());
+            clearBtn.addEventListener('click', () => clearCurrentNote());
+            exportBtn.addEventListener('click', () => exportNotes());
+            logoutBtn.addEventListener('click', () => logout());
+            
+            // Фокус на редактор
+            setTimeout(() => {
+                noteContent.focus();
+            }, 300);
+        }
+
+        // Запуск приложения
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
