@@ -456,6 +456,99 @@
             margin: 10px 0;
         }
         
+        /* ===== НОВЫЙ СТИЛЬ: НЕ ИНОАГЕНТ ===== */
+        .not-agent-block {
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: help;
+            position: relative;
+            transition: all 0.25s ease;
+        }
+        
+        .not-agent-block:hover {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.05);
+        }
+        
+        .not-agent-block .agent-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .not-agent-block .agent-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #a7f3d0;
+            line-height: 1.3;
+        }
+        
+        .not-agent-block .agent-text .highlight-ok {
+            color: #34d399;
+        }
+        
+        .not-agent-block .agent-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            width: 320px;
+            background: #0f172a;
+            color: #e2e8f0;
+            text-align: left;
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            position: absolute;
+            z-index: 100;
+            bottom: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%) translateY(6px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 1.6;
+            pointer-events: none;
+            white-space: normal;
+            word-break: break-word;
+            backdrop-filter: blur(8px);
+        }
+        
+        .not-agent-block .agent-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 7px solid transparent;
+            border-top-color: #0f172a;
+        }
+        
+        .not-agent-block:hover .agent-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .not-agent-block .agent-tooltip .hl-ok { color: #34d399; font-weight: 600; }
+        .not-agent-block .agent-tooltip .hl-info { color: #60a5fa; font-weight: 600; }
+        .not-agent-block .agent-tooltip .fa-icon { color: #fbbf24; margin-right: 4px; }
+        
+        @media (max-width: 768px) {
+            .not-agent-block { padding: 12px 14px; }
+            .not-agent-block .agent-text { font-size: 11px; }
+            .not-agent-block .agent-tooltip { width: 280px; font-size: 11px; padding: 14px 16px; }
+        }
+        
+        @media (max-width: 480px) {
+            .not-agent-block .agent-tooltip { width: 240px; font-size: 10px; padding: 12px 14px; }
+        }
+        
         /* Мобильные стили */
         @media (max-width: 768px) {
             .login-container {
@@ -567,6 +660,22 @@
                         <div>Помощь</div>
                     </button>
                 </div>
+            </div>
+            
+            <!-- ===== НОВЫЙ БЛОК: НЕ ЯВЛЯЕТСЯ ИНОСТРАННЫМ АГЕНТОМ ===== -->
+            <div class="not-agent-block">
+                <span class="agent-icon">🛡️</span>
+                <span class="agent-text">
+                    ✅ <span class="highlight-ok">Не является иностранным агентом</span>
+                </span>
+                <span class="agent-tooltip">
+                    <i class="fas fa-gavel fa-icon"></i> Официальное заявление в соответствии с <span class="hl-info">Федеральным законом от 14.07.2022 № 255-ФЗ</span> и <span class="hl-info">Приказом Минюста России от 01.12.2022 № 256</span>.<br><br>
+                    <span class="hl-ok">✔️ Владелец не включён в реестр иностранных агентов</span><br>
+                    <span class="hl-ok">✔️ Не получает иностранного финансирования</span><br>
+                    <span class="hl-ok">✔️ Действует в правовом поле Российской Федерации</span><br><br>
+                    <i class="fas fa-file-signature fa-icon"></i> Уведомление о статусе: <span class="hl-ok">не является иноагентом</span> (в соответствии с п. 1 ст. 6 Федерального закона от 14.07.2022 № 255-ФЗ).<br>
+                    <span style="opacity:0.5; font-size:10px;">Документы о статусе предоставляются по официальному запросу.</span>
+                </span>
             </div>
             
             <button id="loginBtn">
